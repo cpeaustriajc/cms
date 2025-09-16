@@ -12,11 +12,17 @@ type Application = {
     [k: string]: any;
 };
 
+interface Props {
+    applications: Application[];
+    newApplication: Application;
+    [k: string]: unknown;
+}
+
 export default function ApplicationsIndex() {
-    const { props } = usePage();
-    const applications: Application[] = (props as any).applications ?? [];
-    const newApplication = (props as any).newApplication ?? null; // optional one-time client info
-    console.log(newApplication);
+    const { props } = usePage<Props>();
+    const applications: Application[] = props.applications ?? [];
+    const newApplication = props.newApplication ?? null; // optional one-time client info
+
     return (
         <AppLayout>
             <Head title="Applications" />
