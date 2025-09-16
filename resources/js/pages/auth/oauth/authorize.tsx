@@ -22,23 +22,20 @@ type Props = {
 
 export default function OAuthAuthorize() {
     const { props } = usePage<Props>();
-    const { request, client, user, scopes } = props;
+    const { request, client, scopes } = props;
 
-    // Helper to render hidden inputs for simple values from the request object
     function renderHiddenRequestInputs() {
         if (!request || typeof request !== 'object') {
             return null;
         }
 
         return Object.entries(request).map(([key, value]) => {
-            // Skip objects/arrays (we'll handle scopes separately)
             if (value === null || value === undefined) return null;
             const t = typeof value;
             if (t === 'string' || t === 'number' || t === 'boolean') {
                 return <input key={key} type="hidden" name={key} value={String(value)} />;
             }
 
-            // If it's an array of primitives, join with comma (Passport expects redirect_uris sometimes)
             if (Array.isArray(value) && value.every((v) => ['string', 'number', 'boolean'].includes(typeof v))) {
                 return <input key={key} type="hidden" name={key} value={String(value.join(','))} />;
             }
@@ -97,13 +94,11 @@ export default function OAuthAuthorize() {
                         <Form method="post" action="/oauth/authorize" className="space-y-2">
                             {renderHiddenRequestInputs()}
 
-                            {/* Approve button */}
                             <div className="flex items-center gap-3">
                                 <Button type="submit">Authorize</Button>
                             </div>
                         </Form>
 
-                        {/* Deny form: send DELETE to same route */}
                         <Form method="post" action="/oauth/authorize">
                             {renderHiddenRequestInputs()}
                             <input type="hidden" name="_method" value="DELETE" />

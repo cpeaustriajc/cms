@@ -9,7 +9,8 @@ type Application = {
     name?: string;
     redirect?: string | string[];
     created_at?: string | null;
-    [k: string]: any;
+    secret?: string; // only for new applications and confidential apps.
+    [k: string]: unknown;
 };
 
 interface Props {
@@ -21,7 +22,7 @@ interface Props {
 export default function ApplicationsIndex() {
     const { props } = usePage<Props>();
     const applications: Application[] = props.applications ?? [];
-    const newApplication = props.newApplication ?? null; // optional one-time client info
+    const newApplication = props.newApplication ?? null;
 
     return (
         <AppLayout>
