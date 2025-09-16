@@ -3,20 +3,19 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Form, Head, usePage } from '@inertiajs/react';
 
 type Props = {
-    request: Record<string, any>;
+    request: Record<string, unknown>;
     authToken?: string | null;
     client: {
         id: string;
         name: string;
         redirect?: string | string[];
-        // any other client fields
-        [k: string]: any;
+        [k: string]: unknown;
     };
     user: {
         id: string;
         name?: string;
         email?: string;
-        [k: string]: any;
+        [k: string]: unknown;
     };
     scopes: Array<{ id: string; description?: string } | string>;
 };
@@ -41,7 +40,7 @@ export default function OAuthAuthorize() {
 
             // If it's an array of primitives, join with comma (Passport expects redirect_uris sometimes)
             if (Array.isArray(value) && value.every((v) => ['string', 'number', 'boolean'].includes(typeof v))) {
-                return <input key={key} type="hidden" name={key} value={String((value as any[]).join(','))} />;
+                return <input key={key} type="hidden" name={key} value={String(value.join(','))} />;
             }
 
             return null;
@@ -77,13 +76,11 @@ export default function OAuthAuthorize() {
                                     }
 
                                     return (
-                                        <label key={String((s as any).id ?? idx)} className="flex items-start gap-2">
-                                            <Checkbox defaultChecked name="scopes[]" disabled value={(s as any).id} className="mt-1" />
+                                        <label key={String(s.id ?? idx)} className="flex items-start gap-2">
+                                            <Checkbox defaultChecked name="scopes[]" disabled value={s.id} className="mt-1" />
                                             <div className="text-sm">
-                                                <div>{(s as any).id}</div>
-                                                {(s as any).description && (
-                                                    <div className="text-xs text-muted-foreground">{(s as any).description}</div>
-                                                )}
+                                                <div>{s.id}</div>
+                                                {s.description && <div className="text-xs text-muted-foreground">{s.description}</div>}
                                             </div>
                                         </label>
                                     );
