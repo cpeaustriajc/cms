@@ -1,4 +1,5 @@
 import ApplicationsController from '@/actions/App/Http/Controllers/ApplicationsController';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
@@ -72,7 +73,9 @@ export default function ApplicationsIndex() {
                                     >
                                         <div>
                                             <div className="flex items-center gap-2">
+                                                <Badge variant={app.revoked ? 'destructive' : 'default'}>{app.revoked ? 'revoked' : 'active'}</Badge>
                                                 <h3 className="font-medium">{app.name ?? 'Untitled'}</h3>
+
                                                 <div className="text-xs text-muted-foreground">
                                                     ID: <code className="ml-1">{app.id}</code>
                                                 </div>
@@ -106,18 +109,19 @@ export default function ApplicationsIndex() {
                                             </Link>
 
                                             <Form {...ApplicationsController.destroy.form(app.id)}>
-                                                <button
+                                                <Button
+                                                    variant="destructive"
                                                     type="submit"
-                                                    className="text-sm text-red-600 underline"
+                                                    disabled={Boolean(app.revoked)}
                                                     onClick={(e) => {
                                                         // small confirm prompt
-                                                        if (!confirm('Delete this application? This cannot be undone.')) {
+                                                        if (!confirm('Revoke this application? Tokens issued to it will be invalid.')) {
                                                             e.preventDefault();
                                                         }
                                                     }}
                                                 >
-                                                    Delete
-                                                </button>
+                                                    Revoke
+                                                </Button>
                                             </Form>
                                         </div>
                                     </li>

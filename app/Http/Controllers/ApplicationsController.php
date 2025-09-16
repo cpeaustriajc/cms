@@ -6,6 +6,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Passport\ClientRepository;
+use Laravel\Passport\Passport;
+use Laravel\Passport\Token;
 
 class ApplicationsController extends Controller
 {
@@ -18,6 +20,7 @@ class ApplicationsController extends Controller
                     'name',
                     'created_at',
                     'updated_at',
+                    'revoked'
                 ]
             ),
         ]);
@@ -67,12 +70,14 @@ class ApplicationsController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, $clientId): RedirectResponse
+    public function destroy($clientId): RedirectResponse
     {
-        $user = $request->user();
+        $user = auth()->user();
+        $client = $user->oauthApps()->where('id', $clientId)->firstOrFail();
 
-        $client = $user->oauthApps()->where('id', $clientId)->first();
-        $client->delete();
+        $client->update(['revoked' => true]);
+
+        Token::where('client_id', $clientId)->update(['revoked' => true]);
 
         return back();
     }
