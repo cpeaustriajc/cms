@@ -7,3 +7,10 @@ use Laravel\Passport\Http\Middleware\CheckToken;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api', CheckToken::using('user:read'));
+
+Route::resource('contents', App\Http\Controllers\ContentController::class)
+    ->only(['update', 'store'])
+    ->names([
+        'update' => 'api.contents.update',
+        'store' => 'api.contents.store',
+    ]);
