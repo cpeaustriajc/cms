@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -51,7 +52,7 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <div>
                                             <Label className="mb-1 block text-sm font-medium">Content Type</Label>
-                                            <Input className="bg-gray-100" value={selectedType?.name ?? ''} disabled />
+                                            <Input value={selectedType?.name ?? ''} disabled />
                                         </div>
 
                                         <div>
@@ -111,15 +112,10 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                                 placeholder="/blog/hello-world"
                                             />
                                         </div>
-                                        <label className="inline-flex items-center gap-2">
-                                            <input
-                                                type="checkbox"
-                                                name="route[is_primary]"
-                                                className="rounded border"
-                                                defaultChecked={content.route?.is_primary ?? false}
-                                            />
-                                            <span className="text-sm">Primary</span>
-                                        </label>
+                                        <Label className="inline-flex items-center gap-2">
+                                            <Checkbox name="route[is_primary]" defaultChecked={content.route?.is_primary ?? false} />
+                                            <span>Primary</span>
+                                        </Label>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -131,14 +127,14 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     {!selectedType?.fields?.length && <p className="text-sm text-gray-500">No fields defined for this type.</p>}
-                                    {selectedType?.fields?.map((f: any, idx: any) => (
+                                    {selectedType?.fields?.map((field: any, index: any) => (
                                         <FieldRow
-                                            key={f.handle}
-                                            field={f}
-                                            index={idx}
+                                            key={field.handle}
+                                            field={field}
+                                            index={index}
                                             locales={locales}
                                             errors={errors}
-                                            defaultValue={content.values?.[f.handle] ?? ''}
+                                            defaultValue={content.values?.[field.handle] ?? ''}
                                         />
                                     ))}
                                 </CardContent>
