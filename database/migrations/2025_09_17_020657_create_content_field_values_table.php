@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('content_field_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('content_id')->constrained('contents')->cascadeOnDelete();
-            $table->foreignId('field_id')->constrained('content_fields')->cascadeOnDelete();
+            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();
             $table->foreignId('locale_id')->nullable()->constrained('locales');
             $table->unsignedInteger('sort_order')->default(0);
 

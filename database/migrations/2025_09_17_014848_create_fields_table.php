@@ -36,7 +36,9 @@ return new class extends Migration {
             $table->string('data_type', 32);
 
             $table->boolean('is_required')->default(false);
+            $table->boolean('is_unique')->default(false);
             $table->boolean('is_translatable')->default(false);
+            $table->boolean('is_repeatable')->default(false);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
 
