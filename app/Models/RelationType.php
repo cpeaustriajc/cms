@@ -20,6 +20,6 @@ class RelationType extends Model
     {
         return [
             'is_bidirectional' => 'boolean',
-        ]
+        ];
     }
 }
