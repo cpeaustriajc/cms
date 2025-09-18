@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentDestroyRequest;
 use App\Http\Requests\CommentIndexRequest;
+use App\Http\Requests\CommentShowRequest;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Models\Comment;
@@ -82,7 +83,7 @@ class CommentController extends Controller
             ->with('success', 'Comment created successfully.');
     }
 
-    public function show(Comment $comment, Request $request): JsonResponse|InertiaResponse
+    public function show(Comment $comment, CommentShowRequest $request): JsonResponse|InertiaResponse
     {
         $comment->load(['content', 'author', 'status', 'parent']);
 
@@ -90,7 +91,7 @@ class CommentController extends Controller
             return response()->json($comment);
         }
 
-        return Inertia::render('admin/comments/show', [
+        return Inertia::render('comments/show', [
             'comment' => $comment,
         ]);
     }

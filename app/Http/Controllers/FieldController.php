@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FieldDestroyRequest;
 use App\Http\Requests\FieldIndexRequest;
+use App\Http\Requests\FieldShowRequest;
 use App\Http\Requests\FieldStoreRequest;
+use App\Http\Requests\FieldUpdateRequest;
 use App\Models\ContentType;
 use App\Models\Field;
 use Illuminate\Http\JsonResponse;
@@ -84,7 +86,7 @@ class FieldController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Field $field, Request $request)
+    public function show(Field $field, FieldShowRequest $request)
     {
         $field->load('contentType');
 
@@ -116,7 +118,7 @@ class FieldController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Field $field)
+    public function update(FieldUpdateRequest $request, Field $field)
     {
         $field->update($request->all());
 

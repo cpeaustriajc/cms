@@ -32,7 +32,7 @@ class Field extends Model
         'string',
         'text',
         'integer',
-        'decima',
+        'decimal',
         'boolean',
         'datetime',
         'reference',

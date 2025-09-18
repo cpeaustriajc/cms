@@ -43,7 +43,7 @@ export default function Create() {
                     </Button>
                 </div>
 
-                <Form {...ContentController.store.form()} className="space-y-6">
+                <Form {...ContentController.store['/contents'].form()} className="space-y-6">
                     {({ processing, errors }) => (
                         <>
                             <Card>

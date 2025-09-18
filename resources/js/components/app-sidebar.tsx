@@ -9,6 +9,7 @@ import { Link } from '@inertiajs/react';
 import { BookOpen, File, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 import contentTypes from '@/routes/content-types';
+import fields from '@/routes/fields';
 
 const mainNavItems: NavItem[] = [
     {
@@ -26,6 +27,11 @@ const mainNavItems: NavItem[] = [
         href: contentTypes.index(),
         icon: Folder,
     },
+    {
+        title: 'Fields',
+        href: fields.index(),
+        icon: BookOpen,
+    }
 ];
 
 const footerNavItems: NavItem[] = [

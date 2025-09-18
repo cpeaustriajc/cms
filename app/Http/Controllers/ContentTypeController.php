@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContentTypeShowRequest;
 use App\Http\Requests\ContentTypeStoreRequest;
 use App\Http\Requests\ContentTypeUpdateRequest;
 use App\Models\ContentType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -52,7 +52,7 @@ class ContentTypeController extends Controller
             ->with('success', 'Content type created successfully');
     }
 
-    public function show(ContentType $contentType, Request $request): JsonResponse|InertiaResponse
+    public function show(ContentType $contentType, ContentTypeShowRequest $request): JsonResponse|InertiaResponse
     {
         $contentType->load([
             'fields',

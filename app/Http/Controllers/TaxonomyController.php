@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaxonomyShowRequest;
 use App\Http\Requests\TaxonomyStoreRequest;
 use App\Http\Requests\TaxonomyUpdateRequest;
 use App\Models\Taxonomy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -56,7 +56,7 @@ class TaxonomyController extends Controller
             ->with('success', 'Taxonomy created successfully');
     }
 
-    public function show(Taxonomy $taxonomy, Request $request): JsonResponse|InertiaResponse
+    public function show(Taxonomy $taxonomy, TaxonomyShowRequest $request): JsonResponse|InertiaResponse
     {
         $taxonomy->load(['terms' => fn ($query) => $query->whereNull('parent_id')->with('children')->orderBy('name')]);
 

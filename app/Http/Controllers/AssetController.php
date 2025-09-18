@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AssetDestroyRequest;
 use App\Http\Requests\AssetIndexRequest;
+use App\Http\Requests\AssetShowRequest;
 use App\Http\Requests\AssetStoreRequest;
 use App\Http\Requests\AssetUpdateRequest;
 use App\Models\Asset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
@@ -83,7 +83,7 @@ class AssetController extends Controller
             ->with('success', 'Asset uploaded successfully.');
     }
 
-    public function show(Asset $asset, Request $request): JsonResponse|InertiaResponse
+    public function show(Asset $asset, AssetShowRequest $request): JsonResponse|InertiaResponse
     {
         $asset->load(['creator', 'contents']);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TermShowRequest;
 use App\Http\Requests\TermStoreRequest;
 use App\Http\Requests\TermUpdateRequest;
 use App\Models\Taxonomy;
@@ -74,9 +75,9 @@ class TermController extends Controller
             ->with('success', 'Term created successfully.');
     }
 
-    public function show(Term $term, Request $request): JsonResponse|InertiaResponse
+    public function show(Term $term, TermShowRequest $request): JsonResponse|InertiaResponse
     {
-        $term->load(['taxonomy', 'parent', 'children', 'contents' => fn ($query) => $query->latest->limit(10)]);
+        $term->load(['taxonomy', 'parent', 'children', 'contents' => fn ($query) => $query->latest()->limit(10)]);
 
         if ($request->wantsJson()) {
             return response()->json($term);
