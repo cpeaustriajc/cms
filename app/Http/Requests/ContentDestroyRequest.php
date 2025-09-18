@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommentUpdateRequest extends FormRequest
+class ContentDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class CommentUpdateRequest extends FormRequest
         if ($this->expectsJson() || $this->routeIs('api.*')) {
             $user = $this->user();
 
-            return $user !== null && $user->tokenCan('comment:write');
+            return $user !== null && $user->tokenCan('content:delete');
         }
 
         return true;
@@ -27,11 +27,6 @@ class CommentUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'content_id' => ['required', 'integer', 'exists:contents,id'],
-            'parent_id' => ['nullable', 'integer', 'exists:comments,id'],
-            'body' => ['required', 'string', 'max:5000'],
-            'status_id' => ['required', 'integer', 'exists:comment_statuses,id'],
-        ];
+        return [];
     }
 }

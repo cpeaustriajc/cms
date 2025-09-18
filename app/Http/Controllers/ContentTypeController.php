@@ -13,7 +13,7 @@ use Inertia\Response as InertiaResponse;
 
 class ContentTypeController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(\App\Http\Requests\ContentTypeIndexRequest $request): JsonResponse|InertiaResponse
     {
         $contentTypes = ContentType::query()->withCount(['contents', 'fields'])
             ->latest('id')

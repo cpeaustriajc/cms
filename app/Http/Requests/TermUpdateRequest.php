@@ -12,6 +12,12 @@ class TermUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->expectsJson() || $this->routeIs('api.*')) {
+            $user = $this->user();
+
+            return $user !== null && $user->tokenCan('term:write');
+        }
+
         return true;
     }
 

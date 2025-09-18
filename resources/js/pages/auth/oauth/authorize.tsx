@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Form, Head, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 type Props = {
     request: Record<string, unknown>;
@@ -23,6 +23,7 @@ type Props = {
 export default function OAuthAuthorize() {
     const { props } = usePage<Props>();
     const { request, client, scopes } = props;
+    const csrf = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content ?? '';
 
     function renderHiddenRequestInputs() {
         if (!request || typeof request !== 'object') {
@@ -91,21 +92,25 @@ export default function OAuthAuthorize() {
                     </div>
 
                     <div className="flex justify-end gap-3">
-                        <Form method="post" action="/oauth/authorize" className="space-y-2">
+                        <form method="post" action="/oauth/authorize" className="space-y-2">
                             {renderHiddenRequestInputs()}
+                            <input type="hidden" name="auth_token" value={String(props.authToken ?? '')} />
+                            <input type="hidden" name="_token" value={csrf} />
 
                             <div className="flex items-center gap-3">
                                 <Button type="submit">Authorize</Button>
                             </div>
-                        </Form>
+                        </form>
 
-                        <Form method="post" action="/oauth/authorize">
+                        <form method="post" action="/oauth/authorize">
                             {renderHiddenRequestInputs()}
+                            <input type="hidden" name="auth_token" value={String(props.authToken ?? '')} />
+                            <input type="hidden" name="_token" value={csrf} />
                             <input type="hidden" name="_method" value="DELETE" />
                             <Button variant="secondary" type="submit">
                                 Deny
                             </Button>
-                        </Form>
+                        </form>
                     </div>
 
                     <div className="mt-6 text-xs text-muted-foreground">

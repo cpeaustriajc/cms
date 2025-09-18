@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContentDestroyRequest;
+use App\Http\Requests\ContentIndexRequest;
 use App\Http\Requests\ContentStoreRequest;
 use App\Http\Requests\ContentUpdateRequest;
 use App\Models\Content;
@@ -10,13 +12,12 @@ use App\Models\ContentType;
 use App\Models\Locale;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
 class ContentController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(ContentIndexRequest $request): JsonResponse|InertiaResponse
     {
         $contents = Content::query()
             ->with([
@@ -204,7 +205,7 @@ class ContentController extends Controller
             ->with('success', 'Content updated successfully.');
     }
 
-    public function destroy(Content $content, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Content $content, ContentDestroyRequest $request): JsonResponse|RedirectResponse
     {
         $content->delete();
 

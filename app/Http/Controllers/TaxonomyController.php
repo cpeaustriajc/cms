@@ -13,7 +13,7 @@ use Inertia\Response as InertiaResponse;
 
 class TaxonomyController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(\App\Http\Requests\TaxonomyIndexRequest $request): JsonResponse|InertiaResponse
     {
         $taxonomies = Taxonomy::query()
             ->withCount('terms')
@@ -91,7 +91,7 @@ class TaxonomyController extends Controller
             ->with('success', 'Taxonomy updated successfully');
     }
 
-    public function destroy(Taxonomy $taxonomy, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Taxonomy $taxonomy, \App\Http\Requests\TaxonomyDestroyRequest $request): JsonResponse|RedirectResponse
     {
         if ($taxonomy->terms()->exists()) {
             if ($request->wantsJson()) {

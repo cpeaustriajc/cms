@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FieldDestroyRequest;
+use App\Http\Requests\FieldIndexRequest;
 use App\Http\Requests\FieldStoreRequest;
 use App\Models\ContentType;
 use App\Models\Field;
@@ -16,7 +18,7 @@ class FieldController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(FieldIndexRequest $request): JsonResponse|InertiaResponse
     {
         $fields = Field::query()
             ->with('contentType:id,name,slug')
@@ -132,7 +134,7 @@ class FieldController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Field $field, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Field $field, FieldDestroyRequest $request): JsonResponse|RedirectResponse
     {
         $field->delete();
 

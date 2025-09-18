@@ -11,6 +11,12 @@ class AssetUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->expectsJson() || $this->routeIs('api.*')) {
+            $user = $this->user();
+
+            return $user !== null && $user->tokenCan('asset:write');
+        }
+
         return true;
     }
 

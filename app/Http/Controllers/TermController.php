@@ -14,7 +14,7 @@ use Inertia\Response as InertiaResponse;
 
 class TermController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(\App\Http\Requests\TermIndexRequest $request): JsonResponse|InertiaResponse
     {
         $term = Term::query()
             ->with(['taxonomy:id,name,slug', 'parent:id,name'])
@@ -118,7 +118,7 @@ class TermController extends Controller
             ->with('success', 'Term updated successfully.');
     }
 
-    public function destroy(Term $term, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Term $term, \App\Http\Requests\TermDestroyRequest $request): JsonResponse|RedirectResponse
     {
         if ($term->children()->exists()) {
             if ($request->wantsJson()) {

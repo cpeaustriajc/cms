@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentDestroyRequest;
+use App\Http\Requests\CommentIndexRequest;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Models\Comment;
@@ -15,7 +17,7 @@ use Inertia\Response as InertiaResponse;
 
 class CommentController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(CommentIndexRequest $request): JsonResponse|InertiaResponse
     {
         $comments = Comment::query()
             ->with(['content:id,slug', 'author:id,name', 'status:id,name'])
@@ -121,7 +123,7 @@ class CommentController extends Controller
             ->with('success', 'Comment updated successfully.');
     }
 
-    public function destroy(Comment $comment, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Comment $comment, CommentDestroyRequest $request): JsonResponse|RedirectResponse
     {
         $comment->delete();
 

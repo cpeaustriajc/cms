@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssetDestroyRequest;
+use App\Http\Requests\AssetIndexRequest;
 use App\Http\Requests\AssetStoreRequest;
 use App\Http\Requests\AssetUpdateRequest;
 use App\Models\Asset;
@@ -14,7 +16,7 @@ use Inertia\Response as InertiaResponse;
 
 class AssetController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse
+    public function index(AssetIndexRequest $request): JsonResponse|InertiaResponse
     {
         $assets = Asset::query()
             ->with('creator:id,name')
@@ -89,17 +91,25 @@ class AssetController extends Controller
             return response()->json($asset);
         }
 
+        $diskAdapter = Storage::disk($asset->disk);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $diskAdapter */
+        $url = method_exists($diskAdapter, 'url') ? $diskAdapter->url($asset->path) : null;
+
         return Inertia::render('assets/show', [
             'asset' => $asset,
-            'url' => Storage::disk($asset->disk)->url($asset->path),
+            'url' => $url,
         ]);
     }
 
     public function edit(Asset $asset): InertiaResponse
     {
+        $diskAdapter = Storage::disk($asset->disk);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $diskAdapter */
+        $url = method_exists($diskAdapter, 'url') ? $diskAdapter->url($asset->path) : null;
+
         return Inertia::render('assets/edit', [
             'asset' => $asset,
-            'url' => Storage::disk($asset->disk)->url($asset->path),
+            'url' => $url,
         ]);
     }
 
@@ -118,7 +128,7 @@ class AssetController extends Controller
             ->with('success', 'Asset updated successfully.');
     }
 
-    public function destroy(Asset $asset, Request $request): JsonResponse|RedirectResponse
+    public function destroy(Asset $asset, AssetDestroyRequest $request): JsonResponse|RedirectResponse
     {
         Storage::disk($asset->disk)->delete($asset->path);
 
