@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * attached to Content entries via the content_asset pivot. It stores metadata
  * like mime type, size, dimensions, and optional alt text for accessibility.
  *
- * Columns derived from the assets table:
- *
  * @property int $id
  * @property string $disk
  * @property string $path
@@ -28,8 +26,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int|null $created_by_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
- * Relations (read-only):
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Content> $contents Pivot: role, sort_order
  * @property-read \App\Models\User|null $creator
  */

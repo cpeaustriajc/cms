@@ -13,7 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Properties derived from the `contents` table migration.
+ * The Content model represents a piece of content (e.g., article, page) in the CMS.
  *
  * @property int $id
  * @property int $content_type_id
@@ -23,8 +23,6 @@ use Illuminate\Support\Facades\DB;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- *
- * Relations (read-only):
  * @property-read \App\Models\ContentType $type
  * @property-read \App\Models\User|null $author
  * @property-read \App\Models\ContentStatus $status

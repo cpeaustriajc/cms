@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * ContentStatus defines workflow states for Content (e.g., draft, published).
  *
- * Columns derived from the content_statuses table:
- *
  * @property int $id
  * @property string $code
  * @property string $label

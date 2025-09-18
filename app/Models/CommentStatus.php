@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * CommentStatus defines moderation states for comments (e.g., pending, approved).
  *
- * Columns derived from the comment_statuses table:
- *
  * @property int $id
  * @property string $code
  * @property string $label

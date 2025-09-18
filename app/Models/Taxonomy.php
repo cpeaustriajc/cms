@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Taxonomy groups Terms into a named classification (e.g., Categories, Tags).
  * Content entries can be tagged with Terms from one or more Taxonomies.
  *
- * Columns derived from the taxonomies table:
- *
  * @property int $id
  * @property string $name
  * @property string $slug

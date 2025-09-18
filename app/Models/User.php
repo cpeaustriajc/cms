@@ -12,7 +12,6 @@ use Laravel\Passport\HasApiTokens;
 /**
  * User is the authenticated actor of the CMS with session & API (Passport) access.
  *
- * Columns derived from the users table:
  *
  * @property int $id
  * @property string $name
@@ -22,8 +21,6 @@ use Laravel\Passport\HasApiTokens;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
- * Relations (read-only):
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Passport\Token> $tokens
  */
 class User extends Authenticatable implements OAuthenticatable

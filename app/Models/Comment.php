@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Comment represents user-authored discussion attached to a Content entry.
  * It supports threading (parent/child), moderation via status, and soft-deletes.
  *
- * Columns derived from the comments table:
- *
  * @property int $id
  * @property int $content_id
  * @property int|null $user_id
@@ -22,8 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- *
- * Relations (read-only):
  * @property-read \App\Models\Content $content
  * @property-read \App\Models\User|null $author
  * @property-read \App\Models\Comment|null $parent

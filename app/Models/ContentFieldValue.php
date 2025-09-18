@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * ContentFieldValue stores the typed value for a Field on a specific Content.
  * Supports locales, repeatable values via sort_order, and multiple data types.
  *
- * Columns derived from the content_field_values table:
- *
  * @property int $id
  * @property int $content_id
  * @property int $field_id
@@ -25,8 +23,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $value_datetime
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
- * Relations (read-only):
  * @property-read \App\Models\Content $content
  * @property-read \App\Models\Field $field
  * @property-read \App\Models\Locale|null $locale

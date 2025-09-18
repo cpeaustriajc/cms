@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Term represents a single classification within a Taxonomy (e.g., a category
  * or tag). Supports hierarchical relationships via parent/children.
  *
- * Columns derived from the terms table:
- *
  * @property int $id
  * @property int $taxonomy_id
  * @property int|null $parent_id
@@ -22,10 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- */
-/**
- * Relations (read-only):
- *
  * @property-read \App\Models\Taxonomy $taxonomy
  * @property-read \App\Models\Term|null $parent
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Term> $children
