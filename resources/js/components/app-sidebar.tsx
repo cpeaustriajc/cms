@@ -3,11 +3,12 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import content from '@/routes/content';
+import content from '@/routes/contents';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, File, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import contentTypes from '@/routes/content-types';
 
 const mainNavItems: NavItem[] = [
     {
@@ -19,6 +20,11 @@ const mainNavItems: NavItem[] = [
         title: 'Content',
         href: content.index(),
         icon: File,
+    },
+    {
+        title: 'Content Types',
+        href: contentTypes.index(),
+        icon: Folder,
     },
 ];
 

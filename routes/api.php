@@ -8,4 +8,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api', CheckToken::using('user:read'));
 
-Route::apiResource('contents', App\Http\Controllers\ContentController::class);
+// Route::apiResource('contents', App\Http\Controllers\ContentController::class);

@@ -41,7 +41,6 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
-
 interface Link {
     url: string | null;
     label: string;
@@ -62,4 +61,45 @@ export interface PaginatedData<T> {
     prev_page_url: string | null;
     to: number | null;
     total: number;
+}
+
+interface Status {
+    id: number;
+    code: string;
+}
+
+interface Type {
+    id: number;
+    name: string;
+    slug: string;
+}
+
+interface Content {
+    id: number;
+    path: string | null;
+    published_at: string | null;
+    status: Status;
+    type: Type;
+    title: string | null;
+}
+
+interface Field {
+    id: number;
+    name: string;
+    handle: string;
+    data_type: string;
+    is_required?: boolean;
+    is_translatable?: boolean;
+}
+
+interface ContentType {
+    id: number;
+    name: string;
+    slug: string;
+    description?: string | null;
+}
+
+interface ContentTypeLite extends ContentType {
+    contents_count: number;
+    fields_count: number;
 }

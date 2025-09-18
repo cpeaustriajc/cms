@@ -2,30 +2,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import content, { create, destroy, edit } from '@/routes/content';
-import { BreadcrumbItem, PaginatedData } from '@/types';
+import content, { create, destroy, edit } from '@/routes/contents';
+import { BreadcrumbItem, Content, PaginatedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ChangeEvent } from 'react';
-
-interface Status {
-    id: number;
-    code: string;
-}
-
-interface Type {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-interface Content {
-    id: number;
-    path: string | null;
-    published_at: string | null;
-    status: Status;
-    type: Type;
-    title: string | null;
-}
 
 interface IndexProps {
     contents: PaginatedData<Content>;
