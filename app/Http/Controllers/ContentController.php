@@ -22,22 +22,22 @@ class ContentController extends Controller
             ->with([
                 'type:id,name,slug',
                 'status:id,code',
-                'routes' => fn($query) => $query->where('is_primary', true),
+                'routes' => fn ($query) => $query->where('is_primary', true),
                 'fieldValues' => function ($query) {
-                    $query->whereHas('field', fn($field) => $field->where('handle', 'title'))
+                    $query->whereHas('field', fn ($field) => $field->where('handle', 'title'))
                         ->with('field:id,handle');
-                }
+                },
             ])
             ->latest('id')
-            ->when($request->string('type')->toString(), function ($query, $type) {
-                $query->whereHas('type', fn($queryInstance) => $queryInstance->where('slug', $type));
+            ->when($request->string('type')->value(), function ($query, $type) {
+                $query->whereHas('type', fn ($queryInstance) => $queryInstance->where('slug', $type));
             })
-            ->when($request->string('status')->toString(), function ($query, $status) {
-                $query->whereHas('status', fn($queryInstance) => $queryInstance->where('code', $status));
+            ->when($request->string('status')->value(), function ($query, $status) {
+                $query->whereHas('status', fn ($queryInstance) => $queryInstance->where('code', $status));
             })
             ->paginate(10)
             ->withQueryString()
-            ->through(fn($content) => [
+            ->through(fn ($content) => [
                 'id' => $content->id,
                 'title' => optional($content->fieldValues->first())->value_string ??
                     optional($content->fieldValues->first())->value_text ?? '(untitled)',
@@ -54,7 +54,7 @@ class ContentController extends Controller
             return response()->json($contents, 200);
         }
 
-        return Inertia::render('content/index', [
+        return Inertia::render('contents/index', [
             'contents' => $contents,
             'filters' => [
                 'type' => $request->query('type'),
@@ -70,14 +70,14 @@ class ContentController extends Controller
         $types = ContentType::with([
             'fields' => function ($query) {
                 $query->orderBy('sort_order');
-            }
+            },
         ])->get(['id', 'name', 'slug', 'description'])
-            ->map(fn($type) => [
+            ->map(fn ($type) => [
                 'id' => $type->id,
                 'name' => $type->name,
                 'slug' => $type->slug,
                 'description' => $type->description,
-                'fields' => $type->fields->map(fn($field) => [
+                'fields' => $type->fields->map(fn ($field) => [
                     'id' => $field->id,
                     'name' => $field->name,
                     'handle' => $field->handle,
@@ -91,7 +91,7 @@ class ContentController extends Controller
 
         $locales = Locale::all(['id', 'code', 'name']);
 
-        return Inertia::render('content/create', [
+        return Inertia::render('contents/create', [
             'types' => $types,
             'statuses' => $statuses,
             'locales' => $locales,
@@ -107,7 +107,7 @@ class ContentController extends Controller
             $data['content_type_id'] = $type->id;
         }
 
-        $content = (new Content())->createFromPayload($data);
+        $content = (new Content)->createFromPayload($data);
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -132,14 +132,14 @@ class ContentController extends Controller
         $types = ContentType::with([
             'fields' => function ($query) {
                 $query->orderBy('sort_order');
-            }
+            },
         ])->get(['id', 'name', 'slug', 'description'])
-            ->map(fn($type) => [
+            ->map(fn ($type) => [
                 'id' => $type->id,
                 'name' => $type->name,
                 'slug' => $type->slug,
                 'description' => $type->description,
-                'fields' => $type->fields->map(fn($field) => [
+                'fields' => $type->fields->map(fn ($field) => [
                     'id' => $field->id,
                     'name' => $field->name,
                     'handle' => $field->handle,
@@ -155,7 +155,7 @@ class ContentController extends Controller
         $values = [];
         foreach ($content->fieldValues as $value) {
             $handle = $value->field->handle;
-            if (!$handle || array_key_exists($handle, $values)) {
+            if (! $handle || array_key_exists($handle, $values)) {
                 continue;
             }
             $values[$handle] = $value->value_string
@@ -168,7 +168,7 @@ class ContentController extends Controller
 
         $route = $content->routes->first();
 
-        return Inertia::render('content/edit', [
+        return Inertia::render('contents/edit', [
             'content' => [
                 'id' => $content->id,
                 'content_type_id' => $content->content_type_id,
@@ -215,7 +215,7 @@ class ContentController extends Controller
         }
 
         return redirect()
-            ->route('admin.contents.index')
+            ->route('contents.index')
             ->with('success', 'Content deleted.');
     }
 }
