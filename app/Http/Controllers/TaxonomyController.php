@@ -13,7 +13,28 @@ use Inertia\Response as InertiaResponse;
 
 class TaxonomyController extends Controller
 {
-    public function index(Request $request): JsonResponse|InertiaResponse {}
+    public function index(Request $request): JsonResponse|InertiaResponse
+    {
+        $taxonomies = Taxonomy::query()
+            ->withCount('terms')
+            ->when($request->string('search')->value(), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            })
+            ->latest('id')
+            ->paginate(15);
+
+        if ($request->wantsJson()) {
+            return response()->json($taxonomies);
+        }
+
+        return Inertia::render('taxonomies/index', [
+            'taxonomies' => $taxonomies,
+            'filters' => [
+                'search' => $request->query('search'),
+            ],
+        ]);
+    }
 
     public function create(): InertiaResponse
     {
