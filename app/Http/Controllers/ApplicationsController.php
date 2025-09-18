@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Passport\ClientRepository;
-use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
 
 class ApplicationsController extends Controller
@@ -20,7 +19,7 @@ class ApplicationsController extends Controller
                     'name',
                     'created_at',
                     'updated_at',
-                    'revoked'
+                    'revoked',
                 ]
             ),
         ]);
@@ -42,8 +41,8 @@ class ApplicationsController extends Controller
             'device_flow' => 'nullable|boolean',
         ]);
 
-        $redirectUris = collect(explode(',', (string) $request->input('redirect_uris')))
-            ->map(fn($uri) => trim($uri))
+        $redirectUris = collect(explode(',', $request->string('redirect_uris')->value()))
+            ->map(fn ($uri) => trim($uri))
             ->filter()
             ->values()
             ->all();
@@ -52,12 +51,11 @@ class ApplicationsController extends Controller
         app(ClientRepository::class)
             ->createAuthorizationCodeGrantClient(
                 user: $request->user(),
-                name: $request->input('name'),
+                name: $request->string('name')->value(),
                 redirectUris: $redirectUris,
-                confidential: $request->input('confidential', true),
-                enableDeviceFlow: $request->input('device_flow', false),
+                confidential: $request->boolean('confidential', true),
+                enableDeviceFlow: $request->boolean('device_flow', false),
             );
-
 
         return redirect()->route('applications.index')->with('success', 'Application created successfully.');
     }
