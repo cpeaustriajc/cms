@@ -23,7 +23,7 @@ class AssetFactory extends Factory
 
         return [
             'disk' => 'public',
-            'path' => 'uploads/' . basename($filename),
+            'path' => 'uploads/'.basename($filename),
             'ext' => pathinfo($filename, PATHINFO_EXTENSION),
             'mime_type' => 'image/jpeg',
             'size_bytes' => $this->faker->numberBetween(10_000, 4_000_000),

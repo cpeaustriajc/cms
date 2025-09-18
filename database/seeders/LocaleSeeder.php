@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Locale;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class LocaleSeeder extends Seeder
@@ -15,7 +14,7 @@ class LocaleSeeder extends Seeder
     {
         $locales = [
             ['code' => 'en-US', 'name' => 'English (United States)'],
-            ['code' => 'en-GB', 'name' => 'English (United Kingdom)']
+            ['code' => 'en-GB', 'name' => 'English (United Kingdom)'],
         ];
 
         foreach ($locales as $locale) {

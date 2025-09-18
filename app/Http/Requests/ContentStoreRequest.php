@@ -74,8 +74,9 @@ class ContentStoreRequest extends FormRequest
                 $type = ContentType::find($id);
             }
 
-            if (!$type) {
+            if (! $type) {
                 $validationInstance->errors()->add('content_type', 'Content type not found.');
+
                 return;
             }
 
@@ -86,8 +87,8 @@ class ContentStoreRequest extends FormRequest
 
             foreach ($fields as $handle => $field) {
                 if ($field->is_required) {
-                    if (!$provided->has($handle)) {
-                        $validationInstance->errors()->add("fields", "Required field '{$handle}' is missing.");
+                    if (! $provided->has($handle)) {
+                        $validationInstance->errors()->add('fields', "Required field '{$handle}' is missing.");
                     }
                 }
             }
@@ -95,8 +96,9 @@ class ContentStoreRequest extends FormRequest
             // Validate each provided field value matches the field type
             foreach ($provided as $index => $fieldValue) {
                 $handle = (string) ($fieldValue['handle'] ?? '');
-                if (!$fields->has($handle)) {
+                if (! $fields->has($handle)) {
                     $validationInstance->errors()->add("fields.$index.handle", "Field '{$handle}' is not defined for type '{$type->slug}'.");
+
                     continue;
                 }
 
@@ -107,47 +109,47 @@ class ContentStoreRequest extends FormRequest
                 switch ($field->data_type) {
                     case 'string':
                     case 'richtext':
-                        if (!is_null($value) && !is_string($value)) {
+                        if (! is_null($value) && ! is_string($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a string.");
                         }
                         break;
                     case 'text':
-                        if (!is_null($value) && !is_string($value)) {
+                        if (! is_null($value) && ! is_string($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be text.");
                         }
                         break;
                     case 'integer':
                     case 'reference':
-                        if (!is_null($value) && !is_numeric($value)) {
+                        if (! is_null($value) && ! is_numeric($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an integer.");
                         }
                         break;
                     case 'decimal':
-                        if (!is_null($value) && !is_numeric($value)) {
+                        if (! is_null($value) && ! is_numeric($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a decimal number.");
                         }
                         break;
                     case 'boolean':
-                        if (!is_null($value) && !is_bool($value)) {
+                        if (! is_null($value) && ! is_bool($value)) {
                             // Allow "0"/"1"/0/1 too
-                            if (!in_array($value, [0, 1, '0', '1'], true)) {
+                            if (! in_array($value, [0, 1, '0', '1'], true)) {
                                 $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be boolean.");
                             }
                         }
                         break;
                     case 'datetime':
-                        if (!is_null($value) && !strtotime((string) $value)) {
+                        if (! is_null($value) && ! strtotime((string) $value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a valid datetime string.");
                         }
                         break;
                     case 'asset':
                         // Expect asset id or array of ids if repeatable
                         if ($field->is_repeatable) {
-                            if (!is_array($value) || count(array_filter($value, 'is_numeric')) !== count($value)) {
+                            if (! is_array($value) || count(array_filter($value, 'is_numeric')) !== count($value)) {
                                 $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an array of asset IDs.");
                             }
                         } else {
-                            if (!is_null($value) && !is_numeric($value)) {
+                            if (! is_null($value) && ! is_numeric($value)) {
                                 $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an asset ID.");
                             }
                         }

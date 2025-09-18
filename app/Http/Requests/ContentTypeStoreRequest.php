@@ -30,7 +30,7 @@ class ContentTypeStoreRequest extends FormRequest
                 'unique:content_types,slug',
                 'alpha_dash',
             ],
-            'description' => ['nullable', 'string', 'max:1000']
+            'description' => ['nullable', 'string', 'max:1000'],
         ];
     }
 
@@ -38,7 +38,7 @@ class ContentTypeStoreRequest extends FormRequest
     {
         return [
             'slug.regex' => 'The slug may only contain lowercase letters, numbers, hyphens, and underscores.',
-            'slug.unique' => 'The slug has already been taken.'
+            'slug.unique' => 'The slug has already been taken.',
         ];
     }
 }

@@ -12,6 +12,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Properties derived from the `contents` table migration.
+ *
+ * @property int $id
+ * @property int $content_type_id
+ * @property int|null $author_id
+ * @property int $status_id
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
+ * Relations (read-only):
+ * @property-read \App\Models\ContentType $type
+ * @property-read \App\Models\User|null $author
+ * @property-read \App\Models\ContentStatus $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ContentFieldValue> $fieldValues
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ContentRoute> $routes
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Term> $terms
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Asset> $assets Pivot: role, sort_order
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Content> $relatesTo Pivot: relation_type_id, sort_order
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Content> $relatedFrom Pivot: relation_type_id, sort_order
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ContentVersion> $versions
+ */
 class Content extends Model
 {
     use HasFactory, SoftDeletes;
@@ -62,7 +86,9 @@ class Content extends Model
 
     public function assets(): BelongsToMany
     {
-        return $this->belongsToMany(Asset::class, 'content_asset')->withTimestamps();
+        return $this->belongsToMany(Asset::class, 'content_asset')
+            ->withPivot(['role', 'sort_order'])
+            ->withTimestamps();
     }
 
     public function relatesTo(): BelongsToMany
@@ -167,7 +193,7 @@ class Content extends Model
 
         foreach ($termGroups as $group) {
             $tax = Taxonomy::where('slug', $group['taxonomy'] ?? '')->first();
-            if (!$tax) {
+            if (! $tax) {
                 continue;
             }
 
@@ -198,10 +224,11 @@ class Content extends Model
                     [
                         'filename' => $filename,
                         'mime_type' => null,
-                        'size_bytes' => 0
+                        'size_bytes' => 0,
                     ]
                 );
                 $assetId = $asset->id;
+
                 continue;
             }
 
@@ -221,7 +248,7 @@ class Content extends Model
     {
         return DB::transaction(function () use ($data) {
             $statusId = $data['status_id'] ?? null;
-            if (!$statusId && !empty($data['status'])) {
+            if (! $statusId && ! empty($data['status'])) {
                 $statusId = optional(ContentStatus::where('code', $data['status'])->first())->id;
             }
 
@@ -241,7 +268,7 @@ class Content extends Model
                 );
             }
 
-            if (!empty($data['routes'])) {
+            if (! empty($data['routes'])) {
                 $content->ensureRoute(
                     $data['routes']['locale_code'] ?? null,
                     (string) $data['routes']['path'] ?? '',
@@ -249,11 +276,11 @@ class Content extends Model
                 );
             }
 
-            if (!empty($data['terms'])) {
+            if (! empty($data['terms'])) {
                 $content->syncTerms($data['terms']);
             }
 
-            if (!empty($data['assets'])) {
+            if (! empty($data['assets'])) {
                 $content->syncAssets($data['assets']);
             }
 
@@ -274,7 +301,7 @@ class Content extends Model
 
             if (array_key_exists('status_id', $data) || array_key_exists('status', $data)) {
                 $statusId = $data['status_id'] ?? null;
-                if (!$statusId && !empty($data['status'])) {
+                if (! $statusId && ! empty($data['status'])) {
                     $statusId = optional(ContentStatus::where('code', $data['status'])->first())->id;
                 }
 
@@ -292,7 +319,7 @@ class Content extends Model
                 );
             }
 
-            if (!empty($data['route'])) {
+            if (! empty($data['route'])) {
                 $this->ensureRoute(
                     $data['route']['locale_code'] ?? null,
                     (string) ($data['route']['path'] ?? ''),

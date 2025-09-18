@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Content;
 use App\Models\Field;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
-use \App\Models\Content;
 
 class ContentUpdateRequest extends FormRequest
 {
@@ -64,7 +64,7 @@ class ContentUpdateRequest extends FormRequest
         $validator->after(function ($validationInstance) {
             /** @var Content $content */
             $content = $this->route('content');
-            if (!$content) {
+            if (! $content) {
                 return;
             }
 
@@ -74,8 +74,9 @@ class ContentUpdateRequest extends FormRequest
             // Only validate provided fields; required enforcement can be skipped on partial updates
             foreach ($provided as $index => $fieldValue) {
                 $handle = (string) ($fieldValue['handle'] ?? '');
-                if (!$fields->has($handle)) {
+                if (! $fields->has($handle)) {
                     $validationInstance->errors()->add("fields.$index.handle", "Field '{$handle}' is not defined for this content type.");
+
                     continue;
                 }
 
@@ -87,38 +88,38 @@ class ContentUpdateRequest extends FormRequest
                     case 'string':
                     case 'richtext':
                     case 'text':
-                        if (!is_null($value) && !is_string($value)) {
+                        if (! is_null($value) && ! is_string($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a string.");
                         }
                         break;
                     case 'integer':
                     case 'reference':
-                        if (!is_null($value) && !is_numeric($value)) {
+                        if (! is_null($value) && ! is_numeric($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an integer.");
                         }
                         break;
                     case 'decimal':
-                        if (!is_null($value) && !is_numeric($value)) {
+                        if (! is_null($value) && ! is_numeric($value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a decimal number.");
                         }
                         break;
                     case 'boolean':
-                        if (!is_null($value) && !is_bool($value) && !in_array($value, [0, 1, '0', '1'], true)) {
+                        if (! is_null($value) && ! is_bool($value) && ! in_array($value, [0, 1, '0', '1'], true)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be boolean.");
                         }
                         break;
                     case 'datetime':
-                        if (!is_null($value) && !strtotime((string) $value)) {
+                        if (! is_null($value) && ! strtotime((string) $value)) {
                             $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be a valid datetime string.");
                         }
                         break;
                     case 'asset':
                         if ($field->is_repeatable) {
-                            if (!is_array($value) || count(array_filter($value, 'is_numeric')) !== count($value)) {
+                            if (! is_array($value) || count(array_filter($value, 'is_numeric')) !== count($value)) {
                                 $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an array of asset IDs.");
                             }
                         } else {
-                            if (!is_null($value) && !is_numeric($value)) {
+                            if (! is_null($value) && ! is_numeric($value)) {
                                 $validationInstance->errors()->add($errorKey, "Field '{$handle}' must be an asset ID.");
                             }
                         }

@@ -86,6 +86,9 @@ class TaxonomyController extends Controller
                 'message' => 'Taxonomy updated successfully',
             ]);
         }
+
+        return redirect()->route('taxonomies.index')
+            ->with('success', 'Taxonomy updated successfully');
     }
 
     public function destroy(Taxonomy $taxonomy, Request $request): JsonResponse|RedirectResponse

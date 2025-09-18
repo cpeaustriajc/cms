@@ -6,6 +6,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * ContentFieldValue stores the typed value for a Field on a specific Content.
+ * Supports locales, repeatable values via sort_order, and multiple data types.
+ *
+ * Columns derived from the content_field_values table:
+ *
+ * @property int $id
+ * @property int $content_id
+ * @property int $field_id
+ * @property int|null $locale_id
+ * @property int $sort_order
+ * @property string|null $value_string
+ * @property string|null $value_text
+ * @property int|null $value_integer
+ * @property string|null $value_decimal
+ * @property bool|null $value_boolean
+ * @property \Illuminate\Support\Carbon|null $value_datetime
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * Relations (read-only):
+ * @property-read \App\Models\Content $content
+ * @property-read \App\Models\Field $field
+ * @property-read \App\Models\Locale|null $locale
+ */
 class ContentFieldValue extends Model
 {
     use HasFactory;

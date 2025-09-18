@@ -33,8 +33,8 @@ class ContentVersionFactory extends Factory
                     [
                         'type' => 'paragraph',
                         'text' => $this->faker->sentence(),
-                    ]
                     ],
+                ],
             ],
             'created_at' => $createdAt,
         ];

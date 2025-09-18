@@ -5,6 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Field defines a piece of structured data that can be attached to a ContentType.
+ * Fields have a data_type and constraints (required/unique/translatable...).
+ *
+ * Columns derived from the fields table:
+ *
+ * @property int $id
+ * @property int $content_type_id
+ * @property string $name
+ * @property string $handle
+ * @property string $data_type
+ * @property bool $is_required
+ * @property bool $is_unique
+ * @property bool $is_translatable
+ * @property bool $is_repeatable
+ * @property int $sort_order
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * Relations (read-only):
+ * @property-read \App\Models\ContentType $contentType
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ContentFieldValue> $values
+ */
 class Field extends Model
 {
     use HasFactory;

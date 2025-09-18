@@ -10,7 +10,6 @@ use App\Models\Field;
 use App\Models\Locale;
 use App\Models\Taxonomy;
 use App\Models\Term;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -69,7 +68,7 @@ class DemoContentSeeder extends Seeder
     {
         $field = $fieldsByHandle->get($handle);
 
-        if (!$field) {
+        if (! $field) {
             return;
         }
 

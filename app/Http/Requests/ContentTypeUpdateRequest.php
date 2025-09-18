@@ -30,7 +30,7 @@ class ContentTypeUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique('content_types', 'slug')->ignore($this->content_type),
                 'alpha_dash',
-            ]
+            ],
         ];
     }
 }

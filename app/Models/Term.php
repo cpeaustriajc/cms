@@ -8,6 +8,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Term represents a single classification within a Taxonomy (e.g., a category
+ * or tag). Supports hierarchical relationships via parent/children.
+ *
+ * Columns derived from the terms table:
+ *
+ * @property int $id
+ * @property int $taxonomy_id
+ * @property int|null $parent_id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
+/**
+ * Relations (read-only):
+ *
+ * @property-read \App\Models\Taxonomy $taxonomy
+ * @property-read \App\Models\Term|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Term> $children
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Content> $contents
+ */
 class Term extends Model
 {
     use HasFactory;

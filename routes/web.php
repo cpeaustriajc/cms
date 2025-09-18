@@ -20,7 +20,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-
     Route::resources([
         'contents' => ContentController::class,
         'content-types' => ContentTypeController::class,

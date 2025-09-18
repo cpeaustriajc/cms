@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ContentFactory extends Factory
 {
     protected $model = Content::class;
+
     /**
      * Define the model's default state.
      *
@@ -24,7 +25,7 @@ class ContentFactory extends Factory
             'content_type_id' => ContentType::factory(),
             'author_id' => User::factory(),
             'status_id' => ContentStatus::factory(),
-            'published_at' => $this->faker->optional(60)->dateTimeBetween('-1 year', 'now')
+            'published_at' => $this->faker->optional(60)->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
