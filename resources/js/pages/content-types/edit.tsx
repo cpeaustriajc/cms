@@ -33,7 +33,7 @@ export default function Edit({ contentType }: { contentType: ContentType }) {
                 </div>
 
                 <Form {...ContentTypeController.update['/content-types/{content_type}'].form(contentType.id)} className="space-y-6">
-                    {({ processing, errors }) => (
+                    {({ errors }) => (
                         <>
                             <Card>
                                 <CardHeader>

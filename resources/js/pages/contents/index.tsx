@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import AppLayout from '@/layouts/app-layout';
 import content, { create, destroy, edit } from '@/routes/contents';
 import { BreadcrumbItem, Content, PaginatedData } from '@/types';
-import { Link, router, usePage } from '@inertiajs/react';
-import { ChangeEvent } from 'react';
+import { Link, router } from '@inertiajs/react';
 
 interface IndexProps {
     contents: PaginatedData<Content>;
@@ -19,21 +18,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index(props: IndexProps) {
-    const { url } = usePage();
-
-    import.meta.env.DEV && console.log(props);
-
-    const onFilter = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const params = new URLSearchParams(window.location.search);
-
-        const { name, value } = event.target;
-
-        if (value) params.set(name, value);
-        else params.delete(name);
-
-        router.visit(`${url}?${params.toString()}`);
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="p-6">

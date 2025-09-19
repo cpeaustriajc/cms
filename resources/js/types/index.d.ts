@@ -63,6 +63,19 @@ export interface PaginatedData<T> {
     total: number;
 }
 
+export type Value = string | number | readonly string[] | undefined;
+
+export interface Locale {
+    id: number;
+    code: string;
+    name: string;
+}
+
+export interface StatusOption {
+    id: string;
+    label: string;
+}
+
 interface Status {
     id: number;
     code: string;
@@ -82,6 +95,26 @@ interface Content {
     type: Type;
     title: string | null;
 }
+
+export interface ContentRoute {
+    is_primary?: boolean;
+    path?: string | null;
+}
+
+export interface ContentWithValues extends Content {
+    content_type_id: number;
+    status_id?: string | null;
+    route?: ContentRoute | null;
+    values?: Record<string, Value>;
+}
+
+export interface ContentTypeWithFields extends ContentType {
+    fields: Field[];
+}
+
+export type ContentFormErrors = Record<string, string> & {
+    fields?: Record<number, Record<string, string>>;
+};
 
 interface Field {
     id: number;

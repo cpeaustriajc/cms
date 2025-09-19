@@ -6,27 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, Field as CmsField, ContentFormErrors, ContentTypeWithFields, Locale, StatusOption, Value } from '@/types';
 import { Form, Link } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 
-type Status = { id: number; label: string };
-type Locale = { id: number; code: string; name: string };
-type Field = {
-    handle: string;
-    name: string;
-    is_translatable?: boolean;
-    data_type: string;
-};
-type ContentType = {
-    id: number;
-    name: string;
-    fields?: Field[];
-};
-
 interface CreateProps {
-    types: ContentType[];
-    statuses: Status[];
+    types: ContentTypeWithFields[];
+    statuses: StatusOption[];
     locales: Locale[];
 }
 
@@ -47,7 +33,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Create({ types, statuses, locales }: CreateProps) {
     const [typeId, setTypeId] = useState<number | null>(types[0]?.id ?? null);
-    const selectedType = useMemo(() => types.find((t: ContentType) => t.id === typeId), [types, typeId]);
+    const selectedType = useMemo(() => types.find((t) => t.id === typeId), [types, typeId]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -74,7 +60,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
                                                 value={String(typeId ?? '')}
                                                 onChange={(val: string) => setTypeId(Number(val))}
                                                 placeholder="Select type"
-                                                options={types.map((t: ContentType) => ({ value: String(t.id), label: t.name }))}
+                                                options={types.map((type) => ({ value: String(type.id), label: type.name }))}
                                             />
                                             {errors?.content_type_id && <p className="mt-1 text-sm text-red-600">{errors.content_type_id}</p>}
                                         </div>
@@ -84,7 +70,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
                                             <NamedSelect
                                                 name="status_id"
                                                 placeholder="Select status"
-                                                options={statuses.map((s: Status) => ({ value: String(s.id), label: s.label }))}
+                                                options={statuses.map((s: StatusOption) => ({ value: String(s.id), label: s.label }))}
                                             />
                                             {errors?.status_id && <p className="mt-1 text-sm text-red-600">{errors.status_id}</p>}
                                         </div>
@@ -134,7 +120,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
                                     {!selectedType?.fields?.length && (
                                         <p className="text-sm text-muted-foreground">No fields defined for this type.</p>
                                     )}
-                                    {selectedType?.fields?.map((f: Field, idx: number) => (
+                                    {selectedType?.fields?.map((f: CmsField, idx: number) => (
                                         <FieldRow key={f.handle} field={f} index={idx} locales={locales} errors={errors} />
                                     ))}
                                 </CardContent>
@@ -156,7 +142,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
     );
 }
 
-function FieldRow({ field, index, locales, errors }: { field: Field; index: number; locales: Locale[]; errors: any }) {
+function FieldRow({ field, index, locales, errors }: { field: CmsField; index: number; locales: Locale[]; errors: ContentFormErrors}) {
     const inputName = (key: string) => `fields[${index}][${key}]`;
 
     return (
@@ -189,7 +175,7 @@ function FieldRow({ field, index, locales, errors }: { field: Field; index: numb
     );
 }
 
-function FieldInput({ name, dataType, defaultValue }: { name: string; dataType: string; defaultValue?: any }) {
+function FieldInput({ name, dataType, defaultValue }: { name: string; dataType: string; defaultValue?: Value }) {
     switch (dataType) {
         case 'text':
         case 'richtext':

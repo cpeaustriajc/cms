@@ -148,7 +148,7 @@ export async function refreshAccessToken(): Promise<Tokens> {
 }
 
 export async function apiFetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
-    let tokens = getTokens();
+    const tokens = getTokens();
     const headers = new Headers(init?.headers ?? {});
 
     if (tokens?.access_token) {

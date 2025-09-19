@@ -6,14 +6,21 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, Field as CmsField, ContentFormErrors, ContentTypeWithFields, ContentWithValues, Locale, StatusOption, Value } from '@/types';
 import { Form, Link, usePage } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 
-export default function Edit({ content, types, statuses, locales }: any) {
+interface EditProps {
+    content: ContentWithValues;
+    types: ContentTypeWithFields[];
+    statuses: StatusOption[];
+    locales: Locale[];
+}
+
+export default function Edit({ content, types, statuses, locales }: EditProps) {
     const [typeId] = useState(content.content_type_id);
     const page = usePage();
-    const selectedType = useMemo(() => types.find((t: any) => t.id === typeId), [types, typeId]);
+    const selectedType = useMemo<ContentTypeWithFields | undefined>(() => types.find((type) => type.id === typeId), [types, typeId]);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -60,9 +67,9 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                                     <SelectValue placeholder="Select status" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    {statuses.map((s: any) => (
-                                                        <SelectItem key={s.id} value={s.id}>
-                                                            {s.label}
+                                                    {statuses.map((status: StatusOption) => (
+                                                        <SelectItem key={status.id} value={status.id}>
+                                                            {status.label}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
@@ -93,9 +100,9 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                                     <SelectValue placeholder="Default" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    {locales.map((l: any) => (
-                                                        <SelectItem key={l.id} value={l.code}>
-                                                            {l.name}
+                                                    {locales.map((locale: Locale) => (
+                                                        <SelectItem key={locale.id} value={locale.code}>
+                                                            {locale.name}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
@@ -125,7 +132,7 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     {!selectedType?.fields?.length && <p className="text-sm text-gray-500">No fields defined for this type.</p>}
-                                    {selectedType?.fields?.map((field: any, index: any) => (
+                                    {selectedType?.fields?.map((field: CmsField, index: number) => (
                                         <FieldRow
                                             key={field.handle}
                                             field={field}
@@ -154,7 +161,19 @@ export default function Edit({ content, types, statuses, locales }: any) {
     );
 }
 
-function FieldRow({ field, index, locales, errors, defaultValue }: any) {
+function FieldRow({
+    field,
+    index,
+    locales,
+    errors,
+    defaultValue,
+}: {
+    field: CmsField;
+    index: number;
+    locales: Locale[];
+    errors: ContentFormErrors;
+    defaultValue?: Value;
+}) {
     const inputName = (key: string) => `fields[${index}][${key}]`;
 
     return (
@@ -174,7 +193,7 @@ function FieldRow({ field, index, locales, errors, defaultValue }: any) {
                             <SelectValue placeholder="Default" />
                             <SelectContent>
                                 <SelectItem value="">Default</SelectItem>
-                                {locales.map((locale) => (
+                                {locales.map((locale: Locale) => (
                                     <SelectItem key={locale.id} value={locale.code}>
                                         {locale.name}
                                     </SelectItem>
@@ -194,7 +213,7 @@ function FieldRow({ field, index, locales, errors, defaultValue }: any) {
     );
 }
 
-function FieldInput({ name, dataType, defaultValue }) {
+function FieldInput({ name, dataType, defaultValue }: { name: string; dataType: string; defaultValue: Value }) {
     switch (dataType) {
         case 'text':
         case 'richtext':
@@ -206,7 +225,7 @@ function FieldInput({ name, dataType, defaultValue }) {
             return <Input type="number" step="0.01" name={name} defaultValue={defaultValue ?? ''} />;
         case 'boolean':
             return (
-                <Select name={name} defaultValue={defaultValue === true ? '1' : defaultValue === false ? '0' : ''}>
+                <Select name={name} defaultValue={Boolean(defaultValue) === true ? '1' : Boolean(defaultValue) === false ? '0' : ''}>
                     <SelectTrigger className="w-full rounded border px-3 py-2">
                         <SelectValue placeholder="Default" />
                     </SelectTrigger>

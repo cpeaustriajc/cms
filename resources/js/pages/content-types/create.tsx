@@ -31,7 +31,7 @@ export default function Create() {
         if (!slug) {
             setSlug(generatedSlug);
         }
-    }, [name]);
+    }, [name, slug]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

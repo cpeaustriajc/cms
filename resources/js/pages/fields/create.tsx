@@ -41,7 +41,7 @@ export default function Create({ contentTypes, selectedContentType, fieldTypes }
             const found = contentTypes.find((c) => c.slug === selectedContentType);
             if (found) setContentTypeId(String(found.id));
         }
-    }, [selectedContentType, contentTypes]);
+    }, [selectedContentType, contentTypes, handle, contentTypeId]);
 
     useEffect(() => {
         if (!handle && name) {
@@ -52,7 +52,7 @@ export default function Create({ contentTypes, selectedContentType, fieldTypes }
                 .replace(/^_+|_+$/g, '');
             setHandle(generated);
         }
-    }, [name]);
+    }, [name, handle]);
 
     const selectedName = useMemo(() => {
         const found = contentTypes.find((c) => String(c.id) === contentTypeId);
