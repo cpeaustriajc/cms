@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $handle
  * @property string $data_type
+ * @property string $type
+ * @property string $settings
  * @property bool $is_required
  * @property bool $is_unique
  * @property bool $is_translatable
