@@ -42,6 +42,16 @@ class ContentController extends Controller
                 'id' => $content->id,
                 'title' => optional($content->fieldValues->first())->value_string ??
                     optional($content->fieldValues->first())->value_text ?? '(untitled)',
+                'fields' => $content->fieldValues->map(fn ($field) => [
+                    'id' => $field->id,
+                    'field_id' => $field->field_id,
+                    'value_string' => $field->value_string,
+                    'value_text' => $field->value_text,
+                    'value_integer' => $field->value_integer,
+                    'value_decimal' => $field->value_decimal,
+                    'value_boolean' => $field->value_boolean,
+                    'value_datetime' => $field->value_datetime,
+                ]),
                 'type' => $content->type->only('id', 'name', 'slug'),
                 'status' => $content->status->only('id', 'code'),
                 'published_at' => optional($content->published_at)->toIso8601String(),
