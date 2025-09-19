@@ -54,9 +54,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
             <div className="mx-auto max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Create Content</h1>
-                    <Button asChild variant="outline">
-                        <Link href="/admin/contents">Back</Link>
-                    </Button>
+                    <Button variant="outline" render={<Link href="/admin/contents">Back</Link>} />
                 </div>
 
                 <Form action="/admin/contents" method="post">
@@ -147,9 +145,7 @@ export default function Create({ types, statuses, locales }: CreateProps) {
                                     <Button type="submit" disabled={processing}>
                                         {processing ? 'Saving...' : 'Create'}
                                     </Button>
-                                    <Button asChild variant="outline">
-                                        <Link href="/admin/contents">Cancel</Link>
-                                    </Button>
+                                    <Button variant="outline" render={<Link href="/admin/contents">Cancel</Link>} />
                                 </CardFooter>
                             </Card>
                         </div>

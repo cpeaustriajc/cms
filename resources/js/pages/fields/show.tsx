@@ -39,12 +39,8 @@ export default function Show({ field }: { field: FieldItem }) {
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">{field.name}</h1>
                     <div className="flex items-center gap-2">
-                        <Button variant="outline" asChild>
-                            <Link href={indexFields().url}>Back</Link>
-                        </Button>
-                        <Button asChild>
-                            <Link href={editField.url(field.id)}>Edit</Link>
-                        </Button>
+                        <Button variant="outline" render={<Link href={indexFields().url}>Back</Link>} />
+                        <Button render={<Link href={editField.url(field.id)}>Edit</Link>} />
                     </div>
                 </div>
 

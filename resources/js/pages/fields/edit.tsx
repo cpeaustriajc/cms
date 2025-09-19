@@ -60,9 +60,7 @@ export default function Edit({ field, contentTypes, fieldTypes }: EditProps) {
             <div className="max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Edit Field</h1>
-                    <Button asChild variant="outline">
-                        <Link href={showField.url(field.id)}>Back</Link>
-                    </Button>
+                    <Button variant="outline" render={<Link href={showField.url(field.id)}>Back</Link>} />
                 </div>
 
                 <Form {...updateField.form(field.id)} className="space-y-6">
@@ -140,9 +138,7 @@ export default function Edit({ field, contentTypes, fieldTypes }: EditProps) {
                                     <Button type="submit" disabled={processing}>
                                         {processing ? 'Saving…' : 'Save Changes'}
                                     </Button>
-                                    <Button asChild variant="outline">
-                                        <Link href={showField.url(field.id)}>Cancel</Link>
-                                    </Button>
+                                    <Button render={<Link href={showField.url(field.id)}>Cancel</Link>} variant="outline" />
                                 </CardFooter>
                             </Card>
                         </>

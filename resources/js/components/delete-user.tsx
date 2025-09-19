@@ -22,7 +22,9 @@ export default function DeleteUser() {
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" data-test="delete-user-button">Delete account</Button>
+                        <Button variant="destructive" data-test="delete-user-button">
+                            Delete account
+                        </Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
@@ -66,8 +68,8 @@ export default function DeleteUser() {
                                             </Button>
                                         </DialogClose>
 
-                                        <Button variant="destructive" disabled={processing} asChild>
-                                            <button type="submit" data-test="confirm-delete-user-button">Delete account</button>
+                                        <Button variant="destructive" disabled={processing} type="submit" data-test="confirm-delete-user-button">
+                                            Delete account
                                         </Button>
                                     </DialogFooter>
                                 </>

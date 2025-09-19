@@ -39,9 +39,7 @@ export default function Index(props: IndexProps) {
             <div className="p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Contents</h1>
-                    <Button asChild>
-                        <Link href={create().url}>Create Content</Link>
-                    </Button>
+                    <Button render={<Link href={create().url}>Create Content</Link>} />
                 </div>
 
                 {props.contents.data.length === 0 ? (
@@ -49,9 +47,7 @@ export default function Index(props: IndexProps) {
                         <CardContent className="flex items-center justify-center py-12">
                             <div className="text-center">
                                 <p className="mb-4 text-muted-foreground">No contents found.</p>
-                                <Button asChild>
-                                    <Link href={create().url}>Create your first content</Link>
-                                </Button>
+                                <Button render={<Link href={create().url}>Create your first content</Link>} />
                             </div>
                         </CardContent>
                     </Card>
@@ -86,9 +82,7 @@ export default function Index(props: IndexProps) {
                                 </CardContent>
 
                                 <CardFooter className="gap-2">
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={edit.url(content.id)}>Edit</Link>
-                                    </Button>
+                                    <Button variant="outline" size="sm" render={<Link href={edit.url(content.id)}>Edit</Link>} />
                                     <Button
                                         variant="destructive"
                                         size="sm"

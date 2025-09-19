@@ -64,9 +64,7 @@ export default function Create({ contentTypes, selectedContentType, fieldTypes }
             <div className="max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Create Field</h1>
-                    <Button asChild variant="outline">
-                        <Link href={indexFields().url}>Back to Fields</Link>
-                    </Button>
+                    <Button variant="outline" render={<Link href={indexFields().url}>Back to Fields</Link>} />
                 </div>
 
                 <Form {...storeField.form()} className="space-y-6">
@@ -144,9 +142,7 @@ export default function Create({ contentTypes, selectedContentType, fieldTypes }
                                     <Button type="submit" disabled={processing}>
                                         {processing ? 'Creating…' : 'Create Field'}
                                     </Button>
-                                    <Button asChild variant="outline">
-                                        <Link href={indexFields().url}>Cancel</Link>
-                                    </Button>
+                                    <Button variant="outline" render={<Link href={indexFields().url}>Cancel</Link>} />
                                 </CardFooter>
                             </Card>
                         </>

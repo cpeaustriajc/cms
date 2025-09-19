@@ -24,12 +24,8 @@ export default function Show({ contentType }: { contentType: ContentTypeDetail }
                 <div className="flex items-center justify-between">
                     <div className="text-2xl font-semibold">{contentType.name}</div>
                     <div className="flex gap-2">
-                        <Button variant="outline" asChild>
-                            <Link href={indexTypes().url}>Back</Link>
-                        </Button>
-                        <Button asChild>
-                            <Link href={editTypes.url(contentType.id)}>Edit</Link>
-                        </Button>
+                        <Button variant="outline" render={<Link href={indexTypes().url}>Back</Link>} />
+                        <Button render={<Link href={editTypes.url(contentType.id)}>Edit</Link>} />
                     </div>
                 </div>
 
@@ -92,7 +88,6 @@ export default function Show({ contentType }: { contentType: ContentTypeDetail }
                                         </div>
                                     )}
                                 </div>
-
                             ))}
                         </CardContent>
                     </Card>

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
-import { create as createType, show as showType, edit as editType } from '@/routes/content-types';
+import { create as createType, edit as editType, show as showType } from '@/routes/content-types';
 import { BreadcrumbItem, ContentTypeLite, PaginatedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ChangeEvent } from 'react';
@@ -45,9 +45,7 @@ export default function Index({ contentTypes }: IndexProps) {
                             defaultValue={new URLSearchParams(window.location.search).get('search') ?? undefined}
                             onChange={onFilter}
                         />
-                        <Button asChild>
-                            <Link href={createType().url}>Create</Link>
-                        </Button>
+                        <Button render={<Link href={createType().url}>Create</Link>} />
                     </div>
                 </div>
                 {contentTypes.data.length > 0 && (
@@ -68,12 +66,8 @@ export default function Index({ contentTypes }: IndexProps) {
                                     </div>
                                 </CardContent>
                                 <CardFooter className="gap-2">
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={editType.url(type.id)}>Edit</Link>
-                                    </Button>
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={showType.url(type.id)}>View</Link>
-                                    </Button>
+                                    <Button variant="outline" size="sm" render={<Link href={editType.url(type.id)}>Edit</Link>} />
+                                    <Button variant="outline" size="sm" render={<Link href={showType.url(type.id)}>View</Link>} />
                                 </CardFooter>
                             </Card>
                         ))}
@@ -85,9 +79,7 @@ export default function Index({ contentTypes }: IndexProps) {
                         <CardContent className="flex items-center justify-center py-12">
                             <div className="text-center">
                                 <p className="mb-4 text-muted-foreground">No content types found.</p>
-                                <Button asChild>
-                                    <Link href={createType().url}>Create your first content type</Link>
-                                </Button>
+                                <Button render={<Link href={createType().url}>Create your first content type</Link>} />
                             </div>
                         </CardContent>
                     </Card>

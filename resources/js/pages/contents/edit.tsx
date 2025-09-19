@@ -35,9 +35,7 @@ export default function Edit({ content, types, statuses, locales }: any) {
             <div className="mx-auto max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Edit Content #{content.id}</h1>
-                    <Button asChild variant="outline">
-                        <Link href="/content">Back</Link>
-                    </Button>
+                    <Button variant="outline" render={<Link href="/content">Back</Link>} />
                 </div>
 
                 <Form action={`/content/${content.id}`} method="put">
@@ -145,9 +143,7 @@ export default function Edit({ content, types, statuses, locales }: any) {
                                     <Button type="submit" disabled={processing}>
                                         {processing ? 'Saving...' : 'Update'}
                                     </Button>
-                                    <Button asChild variant="outline">
-                                        <Link href="/admin/contents">Cancel</Link>
-                                    </Button>
+                                    <Button variant="outline" render={<Link href="/admin/contents">Cancel</Link>} />
                                 </CardFooter>
                             </Card>
                         </div>

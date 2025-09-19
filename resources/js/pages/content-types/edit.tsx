@@ -29,12 +29,10 @@ export default function Edit({ contentType }: { contentType: ContentType }) {
             <div className="mx-auto max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Edit Content Type</h1>
-                    <Button asChild variant="outline">
-                        <Link href={showTypes.url(contentType.id)}>Back</Link>
-                    </Button>
+                    <Button render={<Link href={showTypes.url(contentType.id)}>Back</Link>} variant="outline" />
                 </div>
 
-                <Form {...ContentTypeController.update.form(contentType.id)} className="space-y-6">
+                <Form {...ContentTypeController.update['/content-types/{content_type}'].form(contentType.id)} className="space-y-6">
                     {({ processing, errors }) => (
                         <>
                             <Card>

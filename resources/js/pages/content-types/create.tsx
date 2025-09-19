@@ -38,9 +38,7 @@ export default function Create() {
             <div className="max-w-3xl p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Create Content Type</h1>
-                    <Button asChild variant="outline">
-                        <Link href={indexTypes().url}>Back to Content Types</Link>
-                    </Button>
+                    <Button render={<Link href={indexTypes().url}>Back to Content Types</Link>} variant="outline" />
                 </div>
 
                 <Form {...ContentController.store['/contents'].form()} className="space-y-6">
@@ -93,9 +91,7 @@ export default function Create() {
                                     <Button type="submit" disabled={processing}>
                                         {processing ? 'Creating...' : 'Create Content Type'}
                                     </Button>
-                                    <Button variant="outline" asChild>
-                                        <Link href={indexTypes().url}>Cancel</Link>
-                                    </Button>
+                                    <Button variant="outline" render={<Link href={indexTypes().url}>Cancel</Link>} />
                                 </CardFooter>
                             </Card>
                         </>
