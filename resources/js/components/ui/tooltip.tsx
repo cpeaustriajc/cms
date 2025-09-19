@@ -1,58 +1,80 @@
 import * as React from "react"
-import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+import { Tooltip as BaseTooltip } from "@base-ui-components/react/tooltip"
 
 import { cn } from "@/lib/utils"
 
-function TooltipProvider({
-  delayDuration = 0,
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+type TooltipProviderProps = React.ComponentProps<typeof BaseTooltip.Provider> & {
+  delayDuration?: number
+}
+
+function TooltipProvider({ delay = 0, delayDuration, ...props }: TooltipProviderProps) {
   return (
-    <TooltipPrimitive.Provider
+    <BaseTooltip.Provider
       data-slot="tooltip-provider"
-      delayDuration={delayDuration}
+      delay={delayDuration ?? delay}
       {...props}
     />
   )
 }
 
-function Tooltip({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+function Tooltip({ ...props }: React.ComponentProps<typeof BaseTooltip.Root>) {
   return (
     <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+      <BaseTooltip.Root data-slot="tooltip" {...props} />
     </TooltipProvider>
   )
 }
 
-function TooltipTrigger({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+type TriggerProps = React.ComponentProps<typeof BaseTooltip.Trigger> & {
+  asChild?: boolean
 }
+
+function TooltipTrigger({ asChild, children, ...props }: TriggerProps) {
+  if (asChild && React.isValidElement(children)) {
+    // Render the child element as the trigger element using Base UI's `render` prop
+    return (
+      <BaseTooltip.Trigger
+        data-slot="tooltip-trigger"
+        render={children as React.ReactElement<Record<string, unknown>>}
+        {...props}
+      />
+    )
+  }
+  return (
+    <BaseTooltip.Trigger data-slot="tooltip-trigger" {...props}>
+      {children}
+    </BaseTooltip.Trigger>
+  )
+}
+
+type PopupProps = React.ComponentProps<typeof BaseTooltip.Popup>
+type PositionerProps = React.ComponentProps<typeof BaseTooltip.Positioner>
+type TooltipContentProps = PopupProps & Pick<PositionerProps, "side" | "sideOffset" | "align">
 
 function TooltipContent({
   className,
   sideOffset = 4,
+  side,
+  align,
   children,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
+}: TooltipContentProps) {
   return (
-    <TooltipPrimitive.Portal>
-      <TooltipPrimitive.Content
-        data-slot="tooltip-content"
-        sideOffset={sideOffset}
-        className={cn(
-          "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-w-sm rounded-md px-3 py-1.5 text-xs",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        <TooltipPrimitive.Arrow className="bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
-      </TooltipPrimitive.Content>
-    </TooltipPrimitive.Portal>
+    <BaseTooltip.Portal>
+      <BaseTooltip.Positioner sideOffset={sideOffset} side={side} align={align}>
+        <BaseTooltip.Popup
+          data-slot="tooltip-content"
+          className={cn(
+            "bg-primary text-primary-foreground z-50 max-w-sm rounded-md px-3 py-1.5 text-xs shadow-lg outline-1 outline-gray-200 transition-[transform,opacity] data-[starting-style]:scale-90 data-[starting-style]:opacity-0 data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
+            className
+          )}
+          {...props}
+        >
+          {children}
+          <BaseTooltip.Arrow className="data-[side=bottom]:top-[-8px] data-[side=left]:right-[-13px] data-[side=left]:rotate-90 data-[side=right]:left-[-13px] data-[side=right]:-rotate-90 data-[side=top]:bottom-[-8px] data-[side=top]:rotate-180" />
+        </BaseTooltip.Popup>
+      </BaseTooltip.Positioner>
+    </BaseTooltip.Portal>
   )
 }
 
